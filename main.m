@@ -3,6 +3,8 @@ clear all
 
 load silver.dat
 
+conf95 = 6.314; %number of standard deviations from t-table for two tailed confidence interval of 95%
+
 silver(:,2) = silver(:,2)-3*9.32;
 
 p1 = polyfit(silver(80:146,1),log(silver(80:146,2)),1)
@@ -61,7 +63,7 @@ MCa = 112.411;
 
 
 avo = 6.022*10^23;
-nAl = DAl*avo/MAl;
+nAl = DAl*avo/MAl;  
 nCa = DCa*avo/MCa;
 
 CSAl = log(NoP/AlP)/(nAl*0.001*10^-28)
@@ -69,4 +71,19 @@ CSCa = log(NoP/CaP)/(nCa*0.001*10^-28)
 
 SDAl = sqrt(AlP)
 SDCa = sqrt(CaP)
+SDNP = sqrt(NoP)
 
+maxAl = AlP+6.314*SDAl 
+minAl = AlP-6.314*SDAl
+maxNS = NoP+6.314*SDNP
+minNS = NoP-6.314*SDNP
+maxCa = CaP+6.314*SDCa
+minCa = CaP-6.314*SDCa
+
+maxCSAl = log(maxNS/minAl)/(nAl*0.001*10^-28)
+maxCSCa = log(maxNS/minCa)/(nCa*0.001*10^-28)
+
+minCSAl = log(minNS/maxAl)/(nAl*0.001*10^-28)
+minCSCa = log(minNS/maxCa)/(nCa*0.001*10^-28)
+
+%Np2max = Np + conf95*stdp; %Maximum decays no plates 95%conf
